@@ -35,7 +35,7 @@ def generate_sample(scale, current_index):
     random_array = []
     # 随机数的范围设定在 [0, 1000000)
     for _ in range(scale):
-        random_array.append(random.randint(0, 10000000 - 1))
+        random_array.append(random.randint(-100000000, 100000000 - 1))
 
     # 2. 写入输入文件 (.in)
     try:
@@ -64,8 +64,9 @@ def generate_sample(scale, current_index):
 
 def main():
     # 定义需要生成的规模列表
-    SCALES = [100, 1000, 10000, 100000, 500000]
-
+    #[5,10,50,100,1000,5000,10000,50000,100000,500000] 正数
+    SCALES = [10000,50000,100000,500000]
+    current_index = find_next_index()
     for scale in SCALES:
         # 对于每个选定的规模，生成一个样例
         generate_sample(scale, current_index)
