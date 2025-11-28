@@ -7,7 +7,10 @@ string BaseData = R"(F:\Desktop\AlgorithmExperiment\data)";
 string name = "maxAndmin";
 string datapath = BaseData + "\\" + name;
 
-//solution
+// 数据规模[5,10,50,100,1000,5000,10000,50000,100000,500000]
+// 消耗时间[0, 0, 0,  0,   0,   4,    9,   45,    93,   434]、
+//线性增长
+// solution
 
 class Solution
 {
@@ -64,6 +67,8 @@ void solve() {
     Timer timer = Timer();//计时器
     res = Solution::maxAndmin(arr);
     }
+
+
     cout<<"input size:"<<arr.size()<<endl;
     if(arr.size() <=20){
         cout << "Input: " ;
@@ -72,6 +77,7 @@ void solve() {
         cout << endl;
     }
     cout<<"max:"<<res[0]<<" min:"<<res[1]<<endl;
+
     //比较结果
         if (res != ans)
         {

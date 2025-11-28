@@ -8,10 +8,15 @@ string BaseData = R"(F:\Desktop\AlgorithmExperiment\data)";
 string name = "mergeSort";
 string datapath = BaseData + "\\" + name;
 // solution
-class Solution
+
+// 数据规模[5,10,50,100,1000,5000,10000,50000,100000,500000]
+//[0, 0, 0, 0, 0,   1,   2,    16,   34, 192] 分治（拷贝费时间）
+//[0, 0, 0, 0, 4, 107, 418, 11436,55528,cant wait] 冒泡
+//[0, 0, 0, 0, 0,   0,   1,    10,   23, 125]快排
+class Solution//分治合并排序
 {
 public:
-   static vector<int> sortArray(vector<int> nums)
+    static vector<int> sortArray(vector<int> nums)
     {
         if (nums.size() <= 1)
         {
@@ -23,7 +28,7 @@ public:
     }
 
 private:
-   static void mergeSort(vector<int> &nums, int left, int right, vector<int> &temp)
+    static void mergeSort(vector<int> &nums, int left, int right, vector<int> &temp)
     {
         if (left >= right)
         {
@@ -47,34 +52,48 @@ private:
         // 比较并合并
         while (i <= mid && j <= right)
         {
-            if (nums[i] <= nums[j])
-            {
-                temp[k++] = nums[i++];
-            }
-            else
-            {
-                temp[k++] = nums[j++];
-            }
+            if (nums[i] <= nums[j])  temp[k++] = nums[i++];
+            else  temp[k++] = nums[j++];
         }
 
         // 复制剩余元素
-        while (i <= mid)
-        {
-            temp[k++] = nums[i++];
-        }
-        while (j <= right)
-        {
-            temp[k++] = nums[j++];
-        }
+        while (i <= mid)    temp[k++] = nums[i++];
+        while (j <= right)  temp[k++] = nums[j++];
 
         // 将临时数组复制回原数组
-        for (int i = 0; i < k; i++)
-        {
+        for (int i = 0; i < k; i++)  
             nums[left + i] = temp[i];
-        }
     }
 };
-class Solution1
+class Solution2 // 快速排序
+{
+public:
+    static vector<int> sortArray(vector<int> nums)
+    {
+        int n = nums.size();
+        quick(nums, 0, n - 1);
+        return nums;
+    }
+
+private:
+    static void quick(vector<int> &nums, int l, int r)
+    {
+        int p = nums[l];
+        int i = l, j = r;
+        if (l >= r)
+            return;
+        while (i < j)
+        {
+            while (i<j&&nums[j] >= p)  j--;
+            while (i<j&&nums[i] <= p)  i++;  
+            if (i < j) swap(nums[i], nums[j]);
+        }
+        swap(nums[l], nums[j]);
+        quick(nums, l, j);
+        quick(nums, j + 1, r);
+    }
+};
+class Solution1//冒泡排序
 {
 public:
     static vector<int> sortArray(vector<int> nums)
@@ -114,11 +133,13 @@ void solve()
 {
     for (int i = 1; i < 100; i++)
     {
+
+        // 文件检查读取
         if (!fs::exists(datapath + "\\" + to_string(i) + ".in"))
             break; // 文件不存在则结束
         cout << "Case " << i << ": " << endl;
         istringstream iss = load_in(i, datapath);
-        istringstream ans_iss = load_out(i,datapath);
+        istringstream ans_iss = load_out(i, datapath);
 
         // 定义输入输出数据结构
         vector<int> arr;
@@ -131,19 +152,21 @@ void solve()
             arr.push_back(a);
         while (ans_iss >> a)
             ans.push_back(a);
+
         // 执行算法
         {
-            cout << "Algorithm: mergeSort: " ;
+            cout << "Algorithm: mergeSort: ";
             Timer timer = Timer(); // 计时器
             res = Solution::sortArray(arr);
         }
 
-        {
-            cout << "Algorithm: bubbleSort: " ;
-            Timer timer = Timer(); // 计时器
-            res = Solution1::sortArray(arr);
-        }
+        // {
+        //     cout << "Algorithm: bubbleSort: " ;
+        //     Timer timer = Timer(); // 计时器
+        //     res = Solution1::sortArray(arr);
+        // }
 
+        // 打印信息
         cout << "Input size:" << arr.size() << endl;
         if (arr.size() <= 20)
         {
@@ -155,19 +178,18 @@ void solve()
             for (auto i : res)
                 cout << i << " ";
             cout << endl;
+        }
 
-            // 比较结果
-           
-        } // 比较结果
-            if (res != ans)
-            {
-                cout << "\033[31mWrong Answer\033[0m" << endl;
-            }
-            else
-            {
-                cout << "\033[32mAccepted\033[0m" << endl;
-            }
-            cout << "________________________________________________________" << endl;
+        // 比较结果
+        if (res != ans)
+        {
+            cout << "\033[31mWrong Answer\033[0m" << endl;
+        }
+        else
+        {
+            cout << "\033[32mAccepted\033[0m" << endl;
+        }
+        cout << "________________________________________________________" << endl;
     }
 }
 int main()

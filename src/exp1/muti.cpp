@@ -7,11 +7,22 @@ namespace fs = std::filesystem;
 string BaseData = R"(F:\Desktop\AlgorithmExperiment\data)";
 string name = "muti";
 string datapath = BaseData + "\\" + name;
-// solution
+
+// 数据规模
+// 5 10
+// 10 100
+// 100 1000
+// 1000 10000
+// 10000 50000
+// 50000 500000
+// 100000 5000000
+// 1000000 10000000
+
+//[0, 0, 0, 0, 1, 22, 389, 1082]
+//  solution
 class Solution1//历遍每一个因子为有该因子的数+1
 {
 public:
-
 
     static int findMaxDivisors(int A, int B)
     {
@@ -60,7 +71,7 @@ public:
         if (A == 1 && B == 1)
             return 1;
 
-        // 智能生成质数表
+        // 生成质数表
         vector<int> primes = generateSmartPrimes(B);
 
         Ans = 2;
@@ -73,9 +84,9 @@ private:
 
     static void dfs(long long Num, int pos, int k, int Cnt, int A, int B, const vector<int> &primes)
     {
-        if (pos >= primes.size())
+        if (pos >= primes.size())//超过质数表长度
             return;
-        if (Num > B)
+        if (Num > B) // 超过范围
             return;
 
         // 检查当前数
@@ -123,7 +134,7 @@ private:
         return primes;
     }
 
-    // 计算合理的最大初始指数
+    // 合理的最大初始指数
     static int calculateMaxExponent(int B)
     {
         // 计算以2为底的对数作为最大指数参考
@@ -134,7 +145,7 @@ private:
             temp *= 2;
             log2B++;
         }
-        return min(64, log2B + 5); // 适当放宽限制
+        return min(64, log2B + 5); // 适当放宽
     }
 };
 
@@ -293,7 +304,6 @@ void solve()
             arr.push_back(a);
         ans_iss>>ans;
         cout << "Case " << i << ":" << endl;
-        
 
         // 执行算法
         {
@@ -301,14 +311,10 @@ void solve()
             Timer timer = Timer(); // 计时器
             res = Solution1::findMaxDivisors(arr[0], arr[1]);
         }
-        // 执行算法
-        {
-            cout << "Algorithm: 暴力算法: " ;
-            Timer timer = Timer(); // 计时器
-            res = Solution4::findMaxDivisors(arr[0], arr[1]);
-        }
         cout << "Input: " << arr[0] << " " << arr[1] << endl;
         cout << "Output: " << res << endl;
+        
+
         // 比较结果
         if (res != ans)
         {
@@ -326,3 +332,8 @@ int main()
     solve();
     return 0;
 }
+
+//[0, 0, 0, 0, 1, 22, 405, 1082]
+//[0, 0, 0, 0, 0, 0, 0, 0]  dfs
+//[0, 0, 0, 1, 7, 152, 3189, 7453] 
+//[0, 0, 0, 1, 16, 500, 15816, (超时)] 
