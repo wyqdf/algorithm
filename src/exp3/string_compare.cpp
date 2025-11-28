@@ -24,9 +24,9 @@ public:
         {
             for (int j = 1; j <= m; j++)
             {
-                dp[i][j] = min({dp[i - 1][j - 1] + abs(str1[i - 1] - str2[j - 1]),
-                                dp[i - 1][j] + k,
-                                dp[i][j - 1] + k});
+                dp[i][j] = min({dp[i - 1][j - 1] + abs(str1[i - 1] - str2[j - 1]),//以俩个非空格结尾
+                                dp[i - 1][j] + k,//第一个字符串以字符结尾，第二个以空格
+                                dp[i][j - 1] + k});//第一个字符串以空格结尾，第二个以字符结尾
             }
         }
         return dp[n][m];

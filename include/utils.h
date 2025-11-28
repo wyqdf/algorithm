@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
-string BaseData = R"(F:\Desktop\AlgorithmExperiment\data)";
+string BaseData = R"(C:\Users\songj\Desktop\alg\algorithm\data)";
 class Timer
 {
 private:
